@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import SectionTitle from '../components/SectionTitle';
 import Button from '../components/Button';
 import { Award, Check } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 
 const PartnersPage: React.FC = () => {
   const partners = [
@@ -96,7 +97,9 @@ const PartnersPage: React.FC = () => {
           >
             <h1 className="font-script text-gold text-5xl md:text-6xl mb-6">Nos Partenaires</h1>
             <p className="text-xl mb-8">Découvrez les marques et organisations qui soutiennent le Gala des Influenceurs et contribuent à son succès.</p>
-            <Button variant="primary" size="lg">Devenir Partenaire</Button>
+            <NavLink to="/partenariat">
+              <Button variant="primary" size="lg">Devenir Partenaire</Button>
+            </NavLink>
           </motion.div>
         </div>
       </section>
@@ -175,12 +178,14 @@ const PartnersPage: React.FC = () => {
                       </li>
                     ))}
                   </ul>
-                  <Button 
-                    variant={index === 0 ? "primary" : "outline"} 
-                    className="w-full"
-                  >
-                    Choisir ce pack
-                  </Button>
+                  <NavLink to="/partenariat">
+                    <Button 
+                      variant={index === 0 ? "primary" : "outline"} 
+                      className="w-full"
+                    >
+                      Choisir ce pack
+                    </Button>
+                  </NavLink>
                 </div>
               </motion.div>
             ))}
@@ -247,8 +252,12 @@ const PartnersPage: React.FC = () => {
               </p>
             </div>
             <div className="flex flex-col md:flex-row justify-center gap-6">
-              <Button variant="primary" size="lg">Télécharger le dossier partenaire</Button>
-              <Button variant="outline" size="lg">Nous contacter</Button>
+              <NavLink to="/partenariat">
+                <Button variant="primary" size="lg">Télécharger le dossier partenaire</Button>
+              </NavLink>
+              <NavLink to="/contact">
+                <Button variant="outline" size="lg">Nous contacter</Button>
+              </NavLink>
             </div>
           </div>
         </div>
