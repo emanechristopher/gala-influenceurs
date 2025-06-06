@@ -1,18 +1,90 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import SectionTitle from '../../components/SectionTitle';
 import Button from '../../components/Button';
-import { User, Mail, Phone, Building2, Globe, DollarSign, FileText, Send, Info } from 'lucide-react';
+import { User, Mail, Phone, Globe, Building2, FileText, Send, Info } from 'lucide-react';
 
 const PartnershipForm: React.FC = () => {
-  const partnershipTypes = [
-    { value: "platine", label: "Partenaire Platine - 15 000€" },
-    { value: "or", label: "Partenaire Or - 10 000€" },
-    { value: "argent", label: "Partenaire Argent - 5 000€" },
-    { value: "media", label: "Partenaire Média" },
-    { value: "technique", label: "Partenaire Technique" },
-    { value: "autre", label: "Autre type de partenariat" },
-  ];
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    position: '',
+    email: '',
+    phone: '',
+    companyName: '',
+    companyType: '',
+    website: '',
+    sector: '',
+    partnershipType: '',
+    proposal: '',
+    budget: '',
+    companyDoc: null as File | null,
+    acceptTerms: false
+  });
+
+  useEffect(() => {
+    const validateForm = () => {
+      const requiredFields = ['name', 'position', 'email', 'phone', 'companyName', 'companyType', 'website', 'sector', 'partnershipType', 'proposal'];
+      const isAllFieldsFilled = requiredFields.every(field => formData[field as keyof typeof formData]);
+      const isFileUploaded = formData.companyDoc !== null;
+      setIsFormValid(isAllFieldsFilled && isFileUploaded && formData.acceptTerms);
+    };
+
+    validateForm();
+  }, [formData]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFormData(prev => ({
+        ...prev,
+        companyDoc: e.target.files![0]
+      }));
+    }
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      acceptTerms: e.target.checked
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Envoyer les données du formulaire par email
+    const formDataToSend = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value !== null) {
+        formDataToSend.append(key, value);
+      }
+    });
+    formDataToSend.append('_subject', 'Nouvelle demande de partenariat');
+    formDataToSend.append('_template', 'table');
+    formDataToSend.append('_captcha', 'false');
+
+    try {
+      const response = await fetch('https://formsubmit.co/emanechristopherpro@gmail.com', {
+        method: 'POST',
+        body: formDataToSend
+      });
+
+      if (response.ok) {
+        // Rediriger vers la page de remerciement après l'envoi réussi du formulaire
+        window.location.href = '/merci-sponsor';
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
 
   return (
     <div className="pt-20">
@@ -25,8 +97,8 @@ const PartnershipForm: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="max-w-3xl mx-auto text-center"
           >
-            <h1 className="font-script text-gold text-5xl md:text-6xl mb-6">Devenir Partenaire</h1>
-            <p className="text-xl mb-8">Associez votre marque à un événement prestigieux et bénéficiez d'une visibilité exceptionnelle.</p>
+            <h1 className="font-script text-gold text-5xl md:text-6xl mb-6">Formulaire Sponsors & Partenaires</h1>
+            <p className="text-xl mb-8">Pour les marques, entreprises et institutions souhaitant soutenir ou collaborer avec l'événement.</p>
           </motion.div>
         </div>
       </section>
@@ -35,13 +107,13 @@ const PartnershipForm: React.FC = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
-            <SectionTitle title="Formulaire de Partenariat" subtitle="REJOIGNEZ-NOUS" center />
+            <SectionTitle title="Demande de Partenariat" subtitle="COLLABORATION" center />
             
             <div className="bg-gray-50 p-8 rounded-lg shadow-sm">
               <form 
-                action="https://formsubmit.co/emanechristopherpro@gmail.com" 
-                method="POST"
+                onSubmit={handleSubmit}
                 className="space-y-6"
+                encType="multipart/form-data"
               >
                 {/* Honeypot pour éviter le spam */}
                 <input type="text" name="_honey" style={{ display: 'none' }} />
@@ -56,11 +128,11 @@ const PartnershipForm: React.FC = () => {
                 <input type="hidden" name="_template" value="table" />
                 
                 {/* Sujet personnalisé */}
-                <input type="hidden" name="_subject" value="Nouvelle demande de partenariat pour le Gala des Influenceurs" />
-                
+                <input type="hidden" name="_subject" value="Nouvelle demande de partenariat" />
+
                 {/* Contact Information */}
                 <div className="mb-8">
-                  <h3 className="font-serif text-xl text-noir font-semibold mb-4 pb-2 border-b border-gold/20">Coordonnées</h3>
+                  <h3 className="font-serif text-xl text-noir font-semibold mb-4 pb-2 border-b border-gold/20">Informations de Contact</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -73,11 +145,27 @@ const PartnershipForm: React.FC = () => {
                           type="text" 
                           id="name"
                           name="name"
-                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold text-noir"
                           placeholder="Votre nom"
                           required
                         />
                       </div>
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="position" className="block text-sm font-medium text-gray-700 mb-1">Poste/Fonction *</label>
+                      <input 
+                        type="text" 
+                        id="position"
+                        name="position"
+                        value={formData.position}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold text-noir"
+                        placeholder="Votre poste dans l'entreprise"
+                        required
+                      />
                     </div>
                     
                     <div>
@@ -90,7 +178,9 @@ const PartnershipForm: React.FC = () => {
                           type="email" 
                           id="email"
                           name="email"
-                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold text-noir"
                           placeholder="votre@email.com"
                           required
                         />
@@ -107,51 +197,61 @@ const PartnershipForm: React.FC = () => {
                           type="tel" 
                           id="phone"
                           name="phone"
-                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold text-noir"
                           placeholder="+XXX XXXXXXXXX"
                           required
                         />
                       </div>
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="position" className="block text-sm font-medium text-gray-700 mb-1">Poste/Fonction *</label>
-                      <input 
-                        type="text" 
-                        id="position"
-                        name="position"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
-                        placeholder="Votre position dans l'entreprise"
-                        required
-                      />
                     </div>
                   </div>
                 </div>
 
                 {/* Company Information */}
                 <div className="mb-8">
-                  <h3 className="font-serif text-xl text-noir font-semibold mb-4 pb-2 border-b border-gold/20">Informations sur l'Entreprise</h3>
+                  <h3 className="font-serif text-xl text-noir font-semibold mb-4 pb-2 border-b border-gold/20">Informations Entreprise</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="md:col-span-2">
-                      <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">Nom de l'entreprise *</label>
+                    <div>
+                      <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-1">Nom de l'entreprise *</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                           <Building2 size={16} className="text-gray-400" />
                         </div>
                         <input 
                           type="text" 
-                          id="company"
-                          name="company"
-                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
+                          id="companyName"
+                          name="companyName"
+                          value={formData.companyName}
+                          onChange={handleInputChange}
+                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold text-noir"
                           placeholder="Nom de votre entreprise"
                           required
                         />
                       </div>
                     </div>
                     
-                    <div className="md:col-span-2">
-                      <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-1">Site web</label>
+                    <div>
+                      <label htmlFor="companyType" className="block text-sm font-medium text-gray-700 mb-1">Type d'organisation *</label>
+                      <select 
+                        id="companyType"
+                        name="companyType"
+                        value={formData.companyType}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold text-noir"
+                        required
+                      >
+                        <option value="">Sélectionner...</option>
+                        <option value="marque">Marque</option>
+                        <option value="entreprise">Entreprise</option>
+                        <option value="institution">Institution</option>
+                        <option value="autre">Autre</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-1">Site web *</label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                           <Globe size={16} className="text-gray-400" />
@@ -160,17 +260,43 @@ const PartnershipForm: React.FC = () => {
                           type="url" 
                           id="website"
                           name="website"
-                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
-                          placeholder="https://www.votreentreprise.com"
+                          value={formData.website}
+                          onChange={handleInputChange}
+                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold text-noir"
+                          placeholder="https://www.votre-entreprise.com"
+                          required
                         />
                       </div>
+                    </div>
+
+                    <div>
+                      <label htmlFor="sector" className="block text-sm font-medium text-gray-700 mb-1">Secteur d'activité *</label>
+                      <select 
+                        id="sector"
+                        name="sector"
+                        value={formData.sector}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold text-noir"
+                        required
+                      >
+                        <option value="">Sélectionner...</option>
+                        <option value="technologie">Technologie</option>
+                        <option value="alimentaire">Alimentaire</option>
+                        <option value="cosmétique">Cosmétique</option>
+                        <option value="automobile">Automobile</option>
+                        <option value="immobilier">Immobilier</option>
+                        <option value="finance">Finance</option>
+                        <option value="éducation">Éducation</option>
+                        <option value="événementiel">Événementiel</option>
+                        <option value="autre">Autre</option>
+                      </select>
                     </div>
                   </div>
                 </div>
 
-                {/* Partnership Information */}
+                {/* Partnership Details */}
                 <div className="mb-8">
-                  <h3 className="font-serif text-xl text-noir font-semibold mb-4 pb-2 border-b border-gold/20">Informations de Partenariat</h3>
+                  <h3 className="font-serif text-xl text-noir font-semibold mb-4 pb-2 border-b border-gold/20">Détails du Partenariat</h3>
                   
                   <div className="space-y-6">
                     <div>
@@ -178,53 +304,70 @@ const PartnershipForm: React.FC = () => {
                       <select 
                         id="partnershipType"
                         name="partnershipType"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
+                        value={formData.partnershipType}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold text-noir"
                         required
                       >
                         <option value="">Sélectionner...</option>
-                        {partnershipTypes.map((type, index) => (
-                          <option key={index} value={type.value}>{type.label}</option>
-                        ))}
+                        <option value="sponsor">Sponsor Principal</option>
+                        <option value="partenaire">Partenaire Officiel</option>
+                        <option value="media">Partenaire Média</option>
+                        <option value="autre">Autre</option>
                       </select>
                     </div>
-                    
+
                     <div>
-                      <label htmlFor="budget" className="block text-sm font-medium text-gray-700 mb-1">Budget envisagé</label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <DollarSign size={16} className="text-gray-400" />
-                        </div>
-                        <select 
-                          id="budget"
-                          name="budget"
-                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
-                        >
-                          <option value="">Sélectionner...</option>
-                          <option value="< 5K">Moins de 5 000€</option>
-                          <option value="5K-10K">5 000€ - 10 000€</option>
-                          <option value="10K-15K">10 000€ - 15 000€</option>
-                          <option value="> 15K">Plus de 15 000€</option>
-                          <option value="Non défini">À discuter</option>
-                        </select>
-                      </div>
+                      <label htmlFor="proposal" className="block text-sm font-medium text-gray-700 mb-1">Proposition de collaboration *</label>
+                      <textarea 
+                        id="proposal" 
+                        name="proposal"
+                        value={formData.proposal}
+                        onChange={handleInputChange}
+                        rows={4}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold text-noir"
+                        placeholder="Décrivez votre proposition de collaboration et les avantages mutuels..."
+                        required
+                      ></textarea>
                     </div>
-                    
+
                     <div>
-                      <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Objectifs de votre partenariat *</label>
-                      <div className="relative">
-                        <div className="absolute top-3 left-3 flex items-center pointer-events-none">
-                          <FileText size={16} className="text-gray-400" />
-                        </div>
-                        <textarea 
-                          id="message" 
-                          name="message"
-                          rows={5}
-                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
-                          placeholder="Décrivez vos attentes et objectifs concernant ce partenariat..."
-                          required
-                        ></textarea>
-                      </div>
+                      <label htmlFor="budget" className="block text-sm font-medium text-gray-700 mb-1">Budget prévisionnel</label>
+                      <input 
+                        type="text" 
+                        id="budget"
+                        name="budget"
+                        value={formData.budget}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold text-noir"
+                        placeholder="Budget estimé pour le partenariat"
+                        required
+                      />
                     </div>
+                  </div>
+                </div>
+
+                {/* Company Documents */}
+                <div className="mb-8">
+                  <h3 className="font-serif text-xl text-noir font-semibold mb-4 pb-2 border-b border-gold/20">Documents</h3>
+                  
+                  <div>
+                    <label htmlFor="companyDoc" className="block text-sm font-medium text-gray-700 mb-1">Document de présentation de l'entreprise *</label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <FileText size={16} className="text-gray-400" />
+                      </div>
+                      <input 
+                        type="file" 
+                        id="companyDoc"
+                        name="companyDoc"
+                        accept=".pdf,.doc,.docx"
+                        onChange={handleFileChange}
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold text-noir [&::file-selector-button]:text-noir [&::file-selector-button]:bg-transparent [&::file-selector-button]:border-0 [&::file-selector-button]:mr-4 [&::file-selector-button]:py-1 [&::file-selector-button]:px-2 [&::file-selector-button]:font-medium [&::file-selector-button]:hover:bg-gold/10"
+                        required
+                      />
+                    </div>
+                    <p className="mt-1 text-sm text-gray-500">Format accepté : PDF, DOC, DOCX (max 5MB)</p>
                   </div>
                 </div>
                 
@@ -236,6 +379,8 @@ const PartnershipForm: React.FC = () => {
                         id="acceptTerms"
                         name="acceptTerms"
                         type="checkbox"
+                        checked={formData.acceptTerms}
+                        onChange={handleCheckboxChange}
                         className="h-4 w-4 text-gold border-gray-300 rounded focus:ring-gold"
                         required
                       />
@@ -252,15 +397,15 @@ const PartnershipForm: React.FC = () => {
                   <div className="text-sm text-gray-700">
                     <p className="font-medium mb-1">Informations importantes:</p>
                     <ul className="list-disc pl-5 space-y-1">
-                      <li>Notre équipe vous contactera dans les 48 heures suivant la soumission de votre demande.</li>
-                      <li>Un dossier de partenariat détaillé vous sera envoyé par email.</li>
+                      <li>Votre demande sera étudiée par notre équipe de partenariats.</li>
+                      <li>Une réponse vous sera envoyée dans les plus brefs délais.</li>
                       <li>Pour toute question, contactez-nous directement au +225 0758 743 691.</li>
                     </ul>
                   </div>
                 </div>
                 
                 <div className="pt-4">
-                  <Button variant="primary" type="submit" className="w-full md:w-auto">
+                  <Button variant="primary" type="submit" className="w-full md:w-auto" disabled={!isFormValid}>
                     <Send size={16} className="mr-2" />
                     Soumettre ma demande
                   </Button>
@@ -270,54 +415,6 @@ const PartnershipForm: React.FC = () => {
                 </div>
               </form>
             </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Benefits */}
-      <section className="py-16 bg-noir text-white">
-        <div className="container mx-auto px-4">
-          <SectionTitle title="Avantages Partenaires" subtitle="POURQUOI NOUS REJOINDRE" center light />
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              {
-                title: "Visibilité Exceptionnelle",
-                description: "Associez votre marque à un événement prestigieux et gagnez en visibilité auprès d'une audience qualifiée et engagée."
-              },
-              {
-                title: "Networking de Qualité",
-                description: "Rencontrez les acteurs clés de l'influence digitale africaine et développez votre réseau professionnel."
-              },
-              {
-                title: "Image de Marque Renforcée",
-                description: "Démontrez votre engagement envers l'excellence et l'innovation dans le secteur digital africain."
-              },
-              {
-                title: "Opportunités Commerciales",
-                description: "Développez de nouvelles opportunités commerciales et identifiez des influenceurs potentiels pour vos campagnes."
-              },
-              {
-                title: "Contenu Exclusif",
-                description: "Accédez à du contenu exclusif et de qualité pour vos propres canaux de communication."
-              },
-              {
-                title: "Impact Positif",
-                description: "Contribuez au développement de l'écosystème digital africain et à la valorisation des talents du continent."
-              }
-            ].map((benefit, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-noir-light p-6 rounded-lg border border-gold/20"
-              >
-                <h3 className="font-serif text-xl font-semibold mb-3 text-gold">{benefit.title}</h3>
-                <p className="text-gray-300 text-sm">{benefit.description}</p>
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>

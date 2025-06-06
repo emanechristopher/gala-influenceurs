@@ -7,64 +7,53 @@ import Button from '../components/Button';
 const ProgramPage: React.FC = () => {
   const schedule = [
     {
-      time: "09:00 - 10:00",
-      title: "Accueil et enregistrement",
-      description: "Accueil des participants, distribution des badges et kits de bienvenue",
+      time: "18h00 - 19h00",
+      title: "Accueil des invités et des influenceurs",
+      description: "Accueil des participants et distribution des badges",
       icon: <Users />,
       type: "Accueil"
     },
     {
-      time: "10:00 - 11:30",
-      title: "Conférence d'ouverture",
-      description: "L'avenir du marketing d'influence en Afrique et les tendances à surveiller en 2025",
-      icon: <Globe />,
-      type: "Conférence",
-      speaker: "Sarah Ndoye, Experte en Marketing Digital"
-    },
-    {
-      time: "11:30 - 13:00",
-      title: "Panel: Monétisation et Partenariats",
-      description: "Stratégies efficaces pour développer des partenariats durables avec les marques",
-      icon: <Award />,
-      type: "Panel",
-      speaker: "Panel d'influenceurs et de représentants de marques"
-    },
-    {
-      time: "13:00 - 14:30",
-      title: "Déjeuner & Networking",
-      description: "Buffet et opportunités de réseautage entre participants",
-      icon: <Coffee />,
-      type: "Pause"
-    },
-    {
-      time: "14:30 - 16:00",
-      title: "Masterclass: Création de Contenu",
-      description: "Les secrets d'un contenu engageant et authentique qui résonne avec votre audience",
+      time: "19h00",
+      title: "Ouverture officielle du Gala",
+      description: "Discours de Hakime224, ambassadeur du label HP et allocution de la marraine Djeneba KEITA, Maire Adjointe de Montreuil",
       icon: <Mic />,
-      type: "Masterclass",
-      speaker: "Amadou Diallo, Créateur de contenu avec 2M d'abonnés"
+      type: "Cérémonie"
     },
     {
-      time: "16:00 - 17:30",
-      title: "Table ronde: Défis et Opportunités",
-      description: "Discussion sur les défis spécifiques auxquels font face les influenceurs africains",
-      icon: <Globe />,
-      type: "Table ronde",
-      speaker: "Modéré par Fatou Camara, Journaliste"
+      time: "19h30",
+      title: "Présentation des influenceurs",
+      description: "Photos, noms, pays et brèves bios des influenceurs présents",
+      icon: <Users />,
+      type: "Présentation"
     },
     {
-      time: "18:00 - 19:30",
-      title: "Cérémonie de remise des prix",
-      description: "Reconnaissance des influenceurs les plus marquants dans différentes catégories",
+      time: "20h00",
+      title: "Spectacles et performances artistiques",
+      description: "Musique, danse, humour et autres performances",
+      icon: <Music />,
+      type: "Spectacle"
+    },
+    {
+      time: "21h00",
+      title: "Remise de distinctions",
+      description: "Remise de distinctions aux influenceurs engagés",
       icon: <Award />,
       type: "Cérémonie"
     },
     {
-      time: "20:00 - 23:00",
-      title: "Soirée de Gala",
-      description: "Cocktail dînatoire, performances artistiques et célébration",
+      time: "21h30",
+      title: "Cocktail et networking",
+      description: "Rencontres, échanges et photos entre les participants",
+      icon: <Coffee />,
+      type: "Networking"
+    },
+    {
+      time: "22h30 - 23h30",
+      title: "Clôture festive",
+      description: "Animations et ambiance musicale pour clôturer la soirée",
       icon: <Music />,
-      type: "Soirée"
+      type: "Clôture"
     }
   ];
   
@@ -80,7 +69,7 @@ const ProgramPage: React.FC = () => {
             className="max-w-3xl mx-auto text-center"
           >
             <h1 className="font-script text-gold text-5xl md:text-6xl mb-6">Programme</h1>
-            <p className="text-xl mb-6">Découvrez le déroulé complet de cette journée exceptionnelle dédiée à l'influence digitale panafricaine.</p>
+            <p className="text-xl mb-6">Découvrez le déroulé complet de cette soirée exceptionnelle dédiée à l'influence digitale panafricaine.</p>
             <div className="flex justify-center items-center gap-6">
               <div className="flex items-center">
                 <Clock className="text-gold mr-2" size={20} />
@@ -98,7 +87,7 @@ const ProgramPage: React.FC = () => {
       {/* Schedule Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <SectionTitle title="Programme de la journée" subtitle="HORAIRES" center />
+          <SectionTitle title="Programme de la soirée" subtitle="HORAIRES" center />
           
           <div className="max-w-4xl mx-auto">
             <div className="relative">
@@ -137,12 +126,6 @@ const ProgramPage: React.FC = () => {
                         
                         <h3 className="font-serif text-xl text-noir font-semibold">{item.title}</h3>
                         
-                        {item.speaker && (
-                          <p className="text-sm text-rouge font-medium my-1">
-                            Intervenant: {item.speaker}
-                          </p>
-                        )}
-                        
                         <p className="text-gray-600 mt-2">{item.description}</p>
                       </div>
                     </div>
@@ -168,9 +151,9 @@ const ProgramPage: React.FC = () => {
               className="bg-gradient-to-br from-noir-light to-noir-dark p-6 rounded-lg border border-gold/20 hover:border-gold/40 transition-colors"
             >
               <Award className="h-12 w-12 text-gold mb-4" />
-              <h3 className="font-serif text-xl font-semibold mb-2 text-gold">Remise des Prix</h3>
+              <h3 className="font-serif text-xl font-semibold mb-2 text-gold">Remise des Distinctions</h3>
               <p className="text-gray-300">
-                Une cérémonie prestigieuse reconnaissant l'excellence dans 10 catégories différentes, des créateurs de contenu lifestyle aux influenceurs engagés.
+                Une cérémonie prestigieuse reconnaissant l'excellence et l'engagement des influenceurs les plus marquants.
               </p>
             </motion.div>
             
@@ -182,9 +165,9 @@ const ProgramPage: React.FC = () => {
               className="bg-gradient-to-br from-noir-light to-noir-dark p-6 rounded-lg border border-gold/20 hover:border-gold/40 transition-colors"
             >
               <Mic className="h-12 w-12 text-gold mb-4" />
-              <h3 className="font-serif text-xl font-semibold mb-2 text-gold">Masterclass</h3>
+              <h3 className="font-serif text-xl font-semibold mb-2 text-gold">Discours Officiels</h3>
               <p className="text-gray-300">
-                Des sessions exclusives animées par des experts internationaux du marketing d'influence et des créateurs à succès.
+                Les allocutions de Hakime224, ambassadeur du label HP, et de Djeneba KEITA, Maire Adjointe de Montreuil.
               </p>
             </motion.div>
             
@@ -196,9 +179,9 @@ const ProgramPage: React.FC = () => {
               className="bg-gradient-to-br from-noir-light to-noir-dark p-6 rounded-lg border border-gold/20 hover:border-gold/40 transition-colors"
             >
               <Music className="h-12 w-12 text-gold mb-4" />
-              <h3 className="font-serif text-xl font-semibold mb-2 text-gold">Soirée de Gala</h3>
+              <h3 className="font-serif text-xl font-semibold mb-2 text-gold">Spectacles & Animations</h3>
               <p className="text-gray-300">
-                Une soirée inoubliable avec performances artistiques, cocktail d'exception et opportunités de networking dans un cadre prestigieux.
+                Une soirée riche en performances artistiques, musique, danse et humour pour célébrer l'excellence africaine.
               </p>
             </motion.div>
           </div>
@@ -208,7 +191,7 @@ const ProgramPage: React.FC = () => {
       {/* CTA */}
       <section className="py-16 bg-gradient-to-r from-gold/10 to-rouge/10">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="font-script text-4xl text-noir mb-4">Prêt à vivre cette expérience exceptionnelle?</h2>
+          <h2 className="font-script text-4xl text-noir mb-4">Prêt à vivre cette soirée d'exception?</h2>
           <p className="text-gray-700 max-w-2xl mx-auto mb-8">
             Les places pour le Gala des Influenceurs sont limitées. Réservez dès maintenant pour garantir votre participation à cet événement incontournable.
           </p>

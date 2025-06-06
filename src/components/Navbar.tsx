@@ -55,6 +55,11 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled }) => {
             }>
               Invités
             </NavLink>
+            <NavLink to="/billeterie" className={({ isActive }) => 
+              `text-white hover:text-gold transition-colors ${isActive ? 'text-gold' : ''}`
+            }>
+              Billeterie
+            </NavLink>
             <NavLink to="/partenaires" className={({ isActive }) => 
               `text-white hover:text-gold transition-colors ${isActive ? 'text-gold' : ''}`
             }>
@@ -68,13 +73,13 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled }) => {
               <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-noir-light overflow-hidden scale-0 group-hover:scale-100 transition-transform origin-top duration-200">
                 <div className="py-1">
                   <NavLink to="/accreditation" className="block px-4 py-2 text-sm text-white hover:bg-gold hover:text-noir transition-colors">
-                    Accréditation
+                    Médias
                   </NavLink>
                   <NavLink to="/participation" className="block px-4 py-2 text-sm text-white hover:bg-gold hover:text-noir transition-colors">
-                    Participation
+                    Influenceurs
                   </NavLink>
                   <NavLink to="/partenariat" className="block px-4 py-2 text-sm text-white hover:bg-gold hover:text-noir transition-colors">
-                    Partenariat
+                    Sponsors & Partenaires
                   </NavLink>
                 </div>
               </div>
@@ -151,6 +156,16 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled }) => {
             Invités
           </NavLink>
           <NavLink 
+            to="/billeterie" 
+            className={({ isActive }) => 
+              `flex items-center p-2 ${isActive ? 'bg-gold text-noir' : 'text-white'} rounded`
+            }
+            onClick={closeMenu}
+          >
+            <Users className="mr-2" size={20} />
+            Billeterie
+          </NavLink>
+          <NavLink 
             to="/partenaires" 
             className={({ isActive }) => 
               `flex items-center p-2 ${isActive ? 'bg-gold text-noir' : 'text-white'} rounded`
@@ -169,7 +184,7 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled }) => {
               }
               onClick={closeMenu}
             >
-              Accréditation
+              Médias
             </NavLink>
             <NavLink 
               to="/participation" 
@@ -178,7 +193,7 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled }) => {
               }
               onClick={closeMenu}
             >
-              Participation
+              Influenceurs
             </NavLink>
             <NavLink 
               to="/partenariat" 
@@ -187,7 +202,7 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled }) => {
               }
               onClick={closeMenu}
             >
-              Partenariat
+              Sponsors & Partenaires
             </NavLink>
           </div>
           <NavLink 

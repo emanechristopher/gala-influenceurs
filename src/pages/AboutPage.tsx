@@ -35,13 +35,13 @@ const AboutPage: React.FC = () => {
               <SectionTitle title="Notre Histoire" subtitle="GENÈSE" />
               <div className="prose max-w-none text-gray-700">
                 <p className="mb-4">
-                  Le <span className="text-gold font-semibold">Gala des Influenceurs</span> est né de la vision de réunir et célébrer les talents africains qui façonnent l'avenir du digital sur le continent et à l'international.
+                  L'événement est organisé par le label HP, représenté par Hakime224, créateur digital et ambassadeur du label.
                 </p>
                 <p className="mb-4">
-                  Initié par un collectif passionné de professionnels du marketing digital et des médias, cet événement répond à un besoin croissant de reconnaissance des créateurs de contenu africains qui, malgré leur impact considérable, restent souvent sous-représentés dans les événements internationaux.
+                  Cette première édition est réalisée en collaboration avec sa marraine officielle : Madame Djeneba KEITA, Maire Adjointe de Montreuil et Vice-Présidente de la Métropole du Grand Paris.
                 </p>
                 <p>
-                  Pour sa première édition parisienne, le Gala des Influenceurs rassemblera les figures les plus emblématiques du digital africain pour une soirée d'exception mêlant networking, conférences enrichissantes et célébration.
+                  Ce projet est né de la volonté de rassembler et célébrer les talents africains et afrodescendants à travers l'Europe, avec un message fort d'unité, de reconnaissance et d'inspiration.
                 </p>
               </div>
             </motion.div>
@@ -69,7 +69,7 @@ const AboutPage: React.FC = () => {
       {/* Mission & Vision */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <SectionTitle title="Notre Mission & Vision" subtitle="OBJECTIFS" center />
+          <SectionTitle title="Objectifs du Gala" subtitle="NOS MISSIONS" center />
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <motion.div
@@ -81,13 +81,20 @@ const AboutPage: React.FC = () => {
             >
               <div className="flex items-start mb-4">
                 <div className="p-3 bg-gold/10 rounded-full mr-4">
-                  <Target className="text-gold h-6 w-6" />
+                  <Award className="text-gold h-6 w-6" />
                 </div>
-                <h3 className="font-serif text-2xl font-semibold">Notre Mission</h3>
+                <h3 className="font-serif text-2xl font-semibold">Reconnaissance & Visibilité</h3>
               </div>
-              <p className="text-gray-700">
-                Créer une plateforme prestigieuse qui reconnaît, célèbre et amplifie le travail des influenceurs panafricains, tout en favorisant les échanges professionnels et culturels entre les acteurs du digital.
-              </p>
+              <ul className="text-gray-700 space-y-3">
+                <li className="flex items-start">
+                  <span className="text-gold mr-2">•</span>
+                  Mettre à l'honneur les influenceurs et créateurs africains les plus marquants
+                </li>
+                <li className="flex items-start">
+                  <span className="text-gold mr-2">•</span>
+                  Donner de la visibilité et de la reconnaissance à des talents souvent invisibilisés
+                </li>
+              </ul>
             </motion.div>
 
             <motion.div
@@ -99,13 +106,20 @@ const AboutPage: React.FC = () => {
             >
               <div className="flex items-start mb-4">
                 <div className="p-3 bg-gold/10 rounded-full mr-4">
-                  <Lightbulb className="text-gold h-6 w-6" />
+                  <Users className="text-gold h-6 w-6" />
                 </div>
-                <h3 className="font-serif text-2xl font-semibold">Notre Vision</h3>
+                <h3 className="font-serif text-2xl font-semibold">Unité & Collaboration</h3>
               </div>
-              <p className="text-gray-700">
-                Devenir l'événement de référence pour les créateurs de contenu africains, en contribuant à l'émergence d'une industrie digitale africaine forte, innovante et reconnue mondialement.
-              </p>
+              <ul className="text-gray-700 space-y-3">
+                <li className="flex items-start">
+                  <span className="text-gold mr-2">•</span>
+                  Créer un espace de célébration entre la jeunesse africaine et la jeunesse française
+                </li>
+                <li className="flex items-start">
+                  <span className="text-gold mr-2">•</span>
+                  Créer des ponts entre les diasporas africaines, les marques, les artistes et les institutions
+                </li>
+              </ul>
             </motion.div>
           </div>
         </div>
@@ -161,34 +175,31 @@ const AboutPage: React.FC = () => {
       {/* Team */}
       <section className="py-16 bg-noir text-white">
         <div className="container mx-auto px-4">
-          <SectionTitle title="Notre Équipe" subtitle="LES ORGANISATEURS" center light />
+          <SectionTitle title="L'Organisateur" subtitle="LE LABEL" center light />
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[1, 2, 3].map((person) => (
-              <motion.div
-                key={person}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="bg-noir-light rounded-lg overflow-hidden group"
-              >
-                <div className="h-64 overflow-hidden">
-                  <img 
-                    src={`https://images.pexels.com/photos/2269872/pexels-photo-2269872.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`} 
-                    alt={`Team member ${person}`} 
-                    className="w-full h-full object-cover transition-transform group-hover:scale-105" 
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="font-serif text-xl font-semibold text-gold mb-1">Nom de la Personne</h3>
-                  <p className="text-gray-400 mb-4">Poste / Fonction</p>
-                  <p className="text-sm text-gray-300">
-                    Une courte biographie ou description du rôle de cette personne dans l'organisation du Gala.
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+          <div className="max-w-2xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="bg-noir-light rounded-lg overflow-hidden group"
+            >
+              <div className="aspect-[4/3] overflow-hidden">
+                <img 
+                  src="/images/hakim.jpg" 
+                  alt="Hakime224 - Label HP" 
+                  className="w-full h-full object-cover transition-transform group-hover:scale-105" 
+                />
+              </div>
+              <div className="p-8">
+                <h3 className="font-serif text-2xl font-semibold text-gold mb-2">Label HP</h3>
+                <p className="text-gray-400 mb-4 text-lg">Représenté par Hakime224</p>
+                <p className="text-gray-300 text-base">
+                  Créateur digital et ambassadeur du label HP, Hakime224 est à l'initiative de ce grand rassemblement panafricain et culturel en Europe. Sa vision est de mettre en valeur les talents africains et de créer des ponts entre les différentes communautés.
+                </p>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>

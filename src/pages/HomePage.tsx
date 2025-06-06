@@ -185,12 +185,13 @@ const HomePage: React.FC = () => {
               <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gold/30 z-0 ml-0.5"></div>
               
               {[
-                {time: "10:00", title: "Ouverture des portes", desc: "Accueil des invités et enregistrement"},
-                {time: "11:30", title: "Conférence d'ouverture", desc: "L'avenir du marketing d'influence en Afrique"},
-                {time: "13:00", title: "Déjeuner networking", desc: "Occasion unique d'échanger avec les participants"},
-                {time: "15:00", title: "Table ronde", desc: "Les défis et opportunités des influenceurs africains"},
-                {time: "18:00", title: "Cérémonie de remise de prix", desc: "Récompenses des influenceurs les plus marquants"},
-                {time: "20:00", title: "Soirée de gala", desc: "Cocktail dînatoire et performances artistiques"}
+                {time: "18h00 - 19h00", title: "Accueil des invités et des influenceurs", desc: "Accueil des participants et distribution des badges"},
+                {time: "19h00", title: "Ouverture officielle du Gala", desc: "Discours de Hakime224, ambassadeur du label HP et allocution de la marraine Djeneba KEITA, Maire Adjointe de Montreuil"},
+                {time: "19h30", title: "Présentation des influenceurs", desc: "Photos, noms, pays et brèves bios des influenceurs présents"},
+                {time: "20h00", title: "Spectacles et performances artistiques", desc: "Musique, danse, humour et autres performances"},
+                {time: "21h00", title: "Remise de distinctions", desc: "Remise de distinctions aux influenceurs engagés"},
+                {time: "21h30", title: "Cocktail et networking", desc: "Rencontres, échanges et photos entre les participants"},
+                {time: "22h30 - 23h30", title: "Clôture festive", desc: "Animations et ambiance musicale pour clôturer la soirée"}
               ].map((event, index) => (
                 <motion.div 
                   key={index}

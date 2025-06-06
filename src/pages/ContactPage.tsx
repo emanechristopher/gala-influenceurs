@@ -108,24 +108,47 @@ const ContactPage: React.FC = () => {
               <div className="bg-gray-50 p-8 rounded-lg shadow-sm">
                 <h3 className="font-serif text-2xl text-noir font-semibold mb-6">Envoyez-nous un message</h3>
                 
-                <form className="space-y-6">
+                <form 
+                  action="https://formsubmit.co/emanechristopherpro@gmail.com" 
+                  method="POST"
+                  className="space-y-6"
+                >
+                  {/* Honeypot pour éviter le spam */}
+                  <input type="text" name="_honey" style={{ display: 'none' }} />
+                  
+                  {/* Désactive le captcha */}
+                  <input type="hidden" name="_captcha" value="false" />
+                  
+                  {/* Redirection après soumission */}
+                  <input type="hidden" name="_next" value={window.location.origin + "/merci"} />
+                  
+                  {/* Template personnalisé */}
+                  <input type="hidden" name="_template" value="table" />
+                  
+                  {/* Sujet personnalisé */}
+                  <input type="hidden" name="_subject" value="Nouveau message de contact - Gala des Influenceurs" />
+                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nom</label>
                       <input 
                         type="text" 
-                        id="name" 
+                        id="name"
+                        name="name"
                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
                         placeholder="Votre nom"
+                        required
                       />
                     </div>
                     <div>
                       <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                       <input 
                         type="email" 
-                        id="email" 
+                        id="email"
+                        name="email"
                         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
                         placeholder="votre@email.com"
+                        required
                       />
                     </div>
                   </div>
@@ -134,19 +157,23 @@ const ContactPage: React.FC = () => {
                     <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">Sujet</label>
                     <input 
                       type="text" 
-                      id="subject" 
+                      id="subject"
+                      name="subject"
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
                       placeholder="Objet de votre message"
+                      required
                     />
                   </div>
                   
                   <div>
                     <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
                     <textarea 
-                      id="message" 
+                      id="message"
+                      name="message"
                       rows={5} 
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold"
                       placeholder="Votre message..."
+                      required
                     ></textarea>
                   </div>
                   
