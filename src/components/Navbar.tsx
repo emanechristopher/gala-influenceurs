@@ -23,7 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled }) => {
       className={`fixed w-full z-50 transition-all duration-300 ${
         scrolled 
           ? 'bg-noir py-2 shadow-md' 
-          : 'bg-gradient-to-b from-noir/80 to-transparent py-4'
+          : 'bg-noir py-4'
       }`}
     >
       <div className="container mx-auto px-4 md:px-6">
@@ -55,11 +55,6 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled }) => {
             }>
               Invités
             </NavLink>
-            <NavLink to="/billeterie" className={({ isActive }) => 
-              `text-white hover:text-gold transition-colors ${isActive ? 'text-gold' : ''}`
-            }>
-              Billeterie
-            </NavLink>
             <NavLink to="/partenaires" className={({ isActive }) => 
               `text-white hover:text-gold transition-colors ${isActive ? 'text-gold' : ''}`
             }>
@@ -70,7 +65,7 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled }) => {
                 Formulaires
                 <span className="ml-1">▼</span>
               </button>
-              <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-noir-light overflow-hidden scale-0 group-hover:scale-100 transition-transform origin-top duration-200">
+              <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-noir overflow-hidden scale-0 group-hover:scale-100 transition-transform origin-top duration-200">
                 <div className="py-1">
                   <NavLink to="/accreditation" className="block px-4 py-2 text-sm text-white hover:bg-gold hover:text-noir transition-colors">
                     Médias
@@ -154,16 +149,6 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled }) => {
           >
             <Users className="mr-2" size={20} />
             Invités
-          </NavLink>
-          <NavLink 
-            to="/billeterie" 
-            className={({ isActive }) => 
-              `flex items-center p-2 ${isActive ? 'bg-gold text-noir' : 'text-white'} rounded`
-            }
-            onClick={closeMenu}
-          >
-            <Users className="mr-2" size={20} />
-            Billeterie
           </NavLink>
           <NavLink 
             to="/partenaires" 
