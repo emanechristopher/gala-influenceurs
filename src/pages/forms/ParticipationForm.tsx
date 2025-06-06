@@ -69,7 +69,7 @@ const ParticipationForm: React.FC = () => {
     formDataToSend.append('_captcha', 'false');
 
     try {
-      const response = await fetch('https://formsubmit.co/emanechristopherpro@gmail.com', {
+      const response = await fetch('https://formsubmit.co/Fulanirecord@gmail.com', {
         method: 'POST',
         body: formDataToSend
       });
